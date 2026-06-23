@@ -1,10 +1,10 @@
-import Tabs from './Tabs';
-import AboutProjectPanel from './panels/AboutProjectPanel';
-import RecentDonationsPanel from './panels/RecentDonationsPanel';
-import AmbassadorLeaderboardPanel from './panels/AmbassadorLeaderboardPanel';
-import GroupsPanel from './panels/GroupsPanel';
-import AboutNgoPanel from './panels/AboutNgoPanel';
-import UpdatesPanel from './panels/UpdatesPanel';
+import Tabs from "./Tabs";
+import AboutProjectPanel from "./panels/AboutProjectPanel";
+import RecentDonationsPanel from "./panels/RecentDonationsPanel";
+import AmbassadorLeaderboardPanel from "./panels/AmbassadorLeaderboardPanel";
+import GroupsPanel from "./panels/GroupsPanel";
+import AboutNgoPanel from "./panels/AboutNgoPanel";
+import UpdatesPanel from "./panels/UpdatesPanel";
 
 /**
  * CampaignTabs — single React entry point that composes the 6 campaign tabs.
@@ -19,20 +19,28 @@ import UpdatesPanel from './panels/UpdatesPanel';
  * "About the Project" is first and therefore active by default.
  */
 export default function CampaignTabs() {
-	return (
-		<Tabs
-			tabs={[
-				{ id: 'about', label: 'About the Project', content: <AboutProjectPanel /> },
-				{ id: 'donations', label: 'Recent Donations', content: <RecentDonationsPanel /> },
-				{
-					id: 'ambassadors',
-					label: 'Ambassador Leaderboard',
-					content: <AmbassadorLeaderboardPanel />,
-				},
-				{ id: 'groups', label: 'Groups', content: <GroupsPanel /> },
-				{ id: 'ngo', label: 'About the NGO', content: <AboutNgoPanel /> },
-				{ id: 'updates', label: 'Updates', content: <UpdatesPanel /> },
-			]}
-		/>
-	);
+  return (
+    <Tabs
+      tabs={[
+        {
+          id: "about",
+          label: "About the Project",
+          content: <AboutProjectPanel />,
+        },
+        {
+          id: "donations",
+          label: "Recent Donations",
+          content: <RecentDonationsPanel />,
+        },
+        {
+          id: "ambassadors",
+          label: "Ambassador Leaderboard",
+          content: <AmbassadorLeaderboardPanel />,
+        },
+        { id: "groups", label: "Groups", content: <GroupsPanel /> },
+        { id: "ngo", label: "About the NGO", content: <AboutNgoPanel /> },
+        { id: "updates", label: "Updates", content: <UpdatesPanel /> },
+      ]}
+    />
+  );
 }

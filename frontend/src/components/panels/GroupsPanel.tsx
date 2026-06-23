@@ -5,21 +5,21 @@
  * donors. Not data-driven.
  */
 const groups = [
-	{ name: 'Supergirls זה אופי - הגן הכתום', by: 'ונטעת' },
-	{ name: 'מאמצחיק - הגן הכתום', by: 'ונטעת' },
+  { name: "Supergirls זה אופי - הגן הכתום", by: "ונטעת" },
+  { name: "מאמצחיק - הגן הכתום", by: "ונטעת" },
 ];
 
 export default function GroupsPanel() {
-	return (
-		<section aria-labelledby="groups-heading">
-			<h2 id="groups-heading">Groups</h2>
-			<ul>
-				{groups.map((g) => (
-					<li key={g.name}>
-						<strong>{g.name}</strong> — by {g.by} · ₪0 raised · 0 donors
-					</li>
-				))}
-			</ul>
-		</section>
-	);
+  return (
+    <section aria-labelledby="groups-heading">
+      <h2 id="groups-heading">Groups</h2>
+      <ul>
+        {groups.map((g) => (
+          <li key={g.name}>
+            <strong>{g.name}</strong> — by {g.by} · ₪0 raised · 0 donors
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
 }

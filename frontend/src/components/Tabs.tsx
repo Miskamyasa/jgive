@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { type ReactNode, useState } from "react";
 
 /**
  * Tabs — interactive 6-tab content selector island.
@@ -45,74 +45,74 @@ import { useState, type ReactNode } from 'react';
  */
 
 export interface TabItem {
-	id: string;
-	label: string;
-	content: ReactNode;
+  id: string;
+  label: string;
+  content: ReactNode;
 }
 
 interface TabsProps {
-	/** Ordered tab descriptors with inline React content. */
-	tabs?: TabItem[];
-	/** Slot-driven alternative: ordered `{ id, label }` pairs. */
-	tabsAstro?: Array<{ id: string; label: string }>;
-	/**
-	 * Named slot content keyed by tab id, supplied by Astro's React renderer
-	 * when used with `<Fragment slot="...">` children.
-	 */
-	slots?: Record<string, ReactNode>;
+  /** Ordered tab descriptors with inline React content. */
+  tabs?: TabItem[];
+  /** Slot-driven alternative: ordered `{ id, label }` pairs. */
+  tabsAstro?: Array<{ id: string; label: string }>;
+  /**
+   * Named slot content keyed by tab id, supplied by Astro's React renderer
+   * when used with `<Fragment slot="...">` children.
+   */
+  slots?: Record<string, ReactNode>;
 }
 
 export default function Tabs({ tabs, tabsAstro, slots }: TabsProps) {
-	// Normalize the two supported APIs into a single list of items.
-	const items: TabItem[] =
-		tabs ??
-		(tabsAstro ?? []).map((t) => ({
-			id: t.id,
-			label: t.label,
-			content: slots?.[t.id] ?? null,
-		}));
+  // Normalize the two supported APIs into a single list of items.
+  const items: TabItem[] = tabs ??
+    (tabsAstro ?? []).map((t) => ({
+      id: t.id,
+      label: t.label,
+      content: slots?.[t.id] ?? null,
+    }));
 
-	const [activeId, setActiveId] = useState<string>(items[0]?.id ?? '');
+  const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
 
-	return (
-		<div className="tabs">
-			<div className="tabs__bar" role="tablist" aria-label="Campaign sections">
-				{items.map((item) => {
-					const isActive = item.id === activeId;
-					return (
-						<button
-							key={item.id}
-							type="button"
-							role="tab"
-							id={`tab-${item.id}`}
-							aria-selected={isActive}
-							aria-controls={`panel-${item.id}`}
-							className={`tabs__tab${isActive ? ' tabs__tab--active' : ''}`}
-							onClick={() => setActiveId(item.id)}
-						>
-							{item.label}
-						</button>
-					);
-				})}
-			</div>
+  return (
+    <div className="tabs">
+      <div className="tabs__bar" role="tablist" aria-label="Campaign sections">
+        {items.map((item) => {
+          const isActive = item.id === activeId;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              id={`tab-${item.id}`}
+              aria-selected={isActive}
+              aria-controls={`panel-${item.id}`}
+              className={`tabs__tab${isActive ? " tabs__tab--active" : ""}`}
+              onClick={() => setActiveId(item.id)}
+            >
+              {item.label}
+            </button>
+          );
+        })}
+      </div>
 
-			{items.map((item) => {
-				const isActive = item.id === activeId;
-				return (
-					<div
-						key={item.id}
-						role="tabpanel"
-						id={`panel-${item.id}`}
-						aria-labelledby={`tab-${item.id}`}
-						className="tabs__panel"
-						hidden={!isActive}
-					>
-						{item.content}
-					</div>
-				);
-			})}
+      {items.map((item) => {
+        const isActive = item.id === activeId;
+        return (
+          <div
+            key={item.id}
+            role="tabpanel"
+            id={`panel-${item.id}`}
+            aria-labelledby={`tab-${item.id}`}
+            className="tabs__panel"
+            hidden={!isActive}
+          >
+            {item.content}
+          </div>
+        );
+      })}
 
-			<style>{`
+      <style>
+        {`
 				.tabs__bar {
 					display: flex;
 					gap: 2rem;
@@ -142,7 +142,8 @@ export default function Tabs({ tabs, tabsAstro, slots }: TabsProps) {
 				.tabs__panel {
 					padding-top: 1.5rem;
 				}
-			`}</style>
-		</div>
-	);
+			`}
+      </style>
+    </div>
+  );
 }

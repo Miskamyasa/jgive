@@ -1,4 +1,4 @@
-import DonorListIsland from '../DonorListIsland';
+import DonorListIsland from "../DonorListIsland";
 
 /**
  * Recent Donations panel.
@@ -8,12 +8,12 @@ import DonorListIsland from '../DonorListIsland';
  * data from the API.
  */
 export default function RecentDonationsPanel() {
-	return (
-		<section aria-labelledby="donations-heading">
-			<h2 id="donations-heading">Recent Donations</h2>
-			<div data-donors-island>
-				<DonorListIsland />
-			</div>
-		</section>
-	);
+  return (
+    <section aria-labelledby="donations-heading">
+      <h2 id="donations-heading">Recent Donations</h2>
+      <div data-donors-island>
+        <DonorListIsland />
+      </div>
+    </section>
+  );
 }

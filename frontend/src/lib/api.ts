@@ -1,5 +1,5 @@
-export const API_BASE_URL =
-  import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:3000";
+export const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL ??
+  "http://localhost:3000";
 
 export const CAMPAIGN_SLUG = "the-orange-garden";
 

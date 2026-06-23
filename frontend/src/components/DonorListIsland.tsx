@@ -1,42 +1,43 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import { fetchDonations, type Donation } from '../lib/api';
-import { QueryProvider, donationsQueryKey } from '../lib/queryClient';
+import { type Donation, fetchDonations } from "../lib/api";
+import { donationsQueryKey, QueryProvider } from "../lib/queryClient";
 
-const nf = new Intl.NumberFormat('en-US');
-const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+const nf = new Intl.NumberFormat("en-US");
+const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
 /** cents -> ₪ comma-grouped whole-shekel string. */
 function formatShekels(cents: number): string {
-	return `\u20AA${nf.format(Math.round(cents / 100))}`;
+  return `\u20AA${nf.format(Math.round(cents / 100))}`;
 }
 
 /** Coarse relative time ("~3h ago" style) from an ISO timestamp. */
 function relativeTime(iso: string): string {
-	const then = new Date(iso).getTime();
-	if (Number.isNaN(then)) return '';
-	const diffSeconds = (then - Date.now()) / 1000;
-	const minutes = diffSeconds / 60;
-	const hours = minutes / 60;
-	const days = hours / 24;
-	if (Math.abs(days) >= 1) return rtf.format(Math.round(days), 'day');
-	if (Math.abs(hours) >= 1) return rtf.format(Math.round(hours), 'hour');
-	return rtf.format(Math.round(minutes), 'minute');
+  const then = new Date(iso).getTime();
+  if (Number.isNaN(then)) return "";
+  const diffSeconds = (then - Date.now()) / 1000;
+  const minutes = diffSeconds / 60;
+  const hours = minutes / 60;
+  const days = hours / 24;
+  if (Math.abs(days) >= 1) return rtf.format(Math.round(days), "day");
+  if (Math.abs(hours) >= 1) return rtf.format(Math.round(hours), "hour");
+  return rtf.format(Math.round(minutes), "minute");
 }
 
 function donorName(donation: Donation): string {
-	const name = donation.display_name?.trim();
-	return name ? name : 'Anonymous';
+  const name = donation.display_name?.trim();
+  return name ? name : "Anonymous";
 }
 
 function DonorListView() {
-	const { data, isLoading, isError } = useQuery({
-		queryKey: donationsQueryKey,
-		queryFn: fetchDonations,
-	});
+  const { data, isLoading, isError } = useQuery({
+    queryKey: donationsQueryKey,
+    queryFn: fetchDonations,
+  });
 
-	const statusStyles = (
-		<style>{`
+  const statusStyles = (
+    <style>
+      {`
 			.donor-status {
 				margin: 0;
 				color: var(--text-muted, #6b7280);
@@ -45,58 +46,60 @@ function DonorListView() {
 			.donor-status--error {
 				color: #b00020;
 			}
-		`}</style>
-	);
+		`}
+    </style>
+  );
 
-	if (isLoading) {
-		return (
-			<p className="donor-status">
-				Loading recent donations&hellip;
-				{statusStyles}
-			</p>
-		);
-	}
+  if (isLoading) {
+    return (
+      <p className="donor-status">
+        Loading recent donations&hellip;
+        {statusStyles}
+      </p>
+    );
+  }
 
-	if (isError) {
-		return (
-			<p className="donor-status donor-status--error" role="status">
-				Couldn&rsquo;t load recent donations.
-				{statusStyles}
-			</p>
-		);
-	}
+  if (isError) {
+    return (
+      <p className="donor-status donor-status--error" role="status">
+        Couldn&rsquo;t load recent donations.
+        {statusStyles}
+      </p>
+    );
+  }
 
-	const donations = data ?? [];
+  const donations = data ?? [];
 
-	if (donations.length === 0) {
-		return (
-			<p className="donor-status">
-				No donations yet.
-				{statusStyles}
-			</p>
-		);
-	}
+  if (donations.length === 0) {
+    return (
+      <p className="donor-status">
+        No donations yet.
+        {statusStyles}
+      </p>
+    );
+  }
 
-	return (
-		<ul className="donor-list">
-			{donations.map((donation) => (
-				<li key={donation.id} className="donor-row">
-					<div className="donor-main">
-						<span className="donor-name">{donorName(donation)}</span>
-						<span className="donor-amount">
-							{formatShekels(donation.amount_cents)}
-						</span>
-					</div>
-					{donation.dedication ? (
-						<p className="donor-dedication">{donation.dedication}</p>
-					) : null}
-					<time className="donor-when" dateTime={donation.created_at}>
-						{relativeTime(donation.created_at)}
-					</time>
-				</li>
-			))}
+  return (
+    <ul className="donor-list">
+      {donations.map((donation) => (
+        <li key={donation.id} className="donor-row">
+          <div className="donor-main">
+            <span className="donor-name">{donorName(donation)}</span>
+            <span className="donor-amount">
+              {formatShekels(donation.amount_cents)}
+            </span>
+          </div>
+          {donation.dedication
+            ? <p className="donor-dedication">{donation.dedication}</p>
+            : null}
+          <time className="donor-when" dateTime={donation.created_at}>
+            {relativeTime(donation.created_at)}
+          </time>
+        </li>
+      ))}
 
-			<style>{`
+      <style>
+        {`
 				.donor-list {
 					list-style: none;
 					margin: 0;
@@ -134,15 +137,16 @@ function DonorListView() {
 					color: var(--text-muted, #6b7280);
 					font-size: 0.85rem;
 				}
-			`}</style>
-		</ul>
-	);
+			`}
+      </style>
+    </ul>
+  );
 }
 
 export default function DonorListIsland() {
-	return (
-		<QueryProvider>
-			<DonorListView />
-		</QueryProvider>
-	);
+  return (
+    <QueryProvider>
+      <DonorListView />
+    </QueryProvider>
+  );
 }
