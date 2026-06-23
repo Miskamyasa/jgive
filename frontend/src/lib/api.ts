@@ -32,6 +32,11 @@ export interface Donation {
   display_name: string;
 }
 
+export interface DonationsPage {
+  donations: Donation[];
+  next_cursor: string | null;
+}
+
 export interface CreateDonationInput {
   amount_cents: number;
   frequency: Frequency;
@@ -80,8 +85,15 @@ export async function fetchCampaign(): Promise<Campaign> {
   return (await response.json()) as Campaign;
 }
 
-export async function fetchDonations(): Promise<Donation[]> {
-  const response = await fetch(`${campaignUrl()}/donations`, {
+export async function fetchDonations(
+  cursor?: string | null,
+): Promise<DonationsPage> {
+  let url = `${campaignUrl()}/donations?limit=20`;
+  if (cursor) {
+    url += `&cursor=${encodeURIComponent(cursor)}`;
+  }
+
+  const response = await fetch(url, {
     headers: { Accept: "application/json" },
   });
 
@@ -89,7 +101,7 @@ export async function fetchDonations(): Promise<Donation[]> {
     throw new Error(`Failed to fetch donations (${response.status})`);
   }
 
-  return (await response.json()) as Donation[];
+  return (await response.json()) as DonationsPage;
 }
 
 export async function createDonation(

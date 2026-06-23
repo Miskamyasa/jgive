@@ -40,9 +40,65 @@ class ApiCampaignsTest < ActionDispatch::IntegrationTest
     get api_campaign_donations_path(@campaign.slug)
 
     assert_response :success
-    donations = response.parsed_body
+    donations = response.parsed_body["donations"]
     assert_equal [ newest.id, middle.id, oldest.id ], donations.map { |donation| donation["id"] }
     assert_equal [ "Anonymous", "Grace", "Ada Lovelace" ], donations.map { |donation| donation["display_name"] }
+  end
+
+  test "donations are paginated with an opaque cursor" do
+    oldest = create_donation!(created_at: 3.hours.ago)
+    middle = create_donation!(created_at: 2.hours.ago)
+    newest = create_donation!(created_at: 1.hour.ago)
+
+    get api_campaign_donations_path(@campaign.slug), params: { limit: 2 }
+
+    assert_response :success
+    first_page = response.parsed_body
+    assert_equal [ newest.id, middle.id ], first_page["donations"].map { |donation| donation["id"] }
+    assert first_page["next_cursor"].present?
+
+    get api_campaign_donations_path(@campaign.slug), params: { limit: 2, cursor: first_page["next_cursor"] }
+
+    assert_response :success
+    second_page = response.parsed_body
+    assert_equal [ oldest.id ], second_page["donations"].map { |donation| donation["id"] }
+    assert_nil second_page["next_cursor"]
+  end
+
+  test "invalid cursor degrades to the first page" do
+    oldest = create_donation!(created_at: 2.hours.ago)
+    newest = create_donation!(created_at: 1.hour.ago)
+
+    get api_campaign_donations_path(@campaign.slug)
+    assert_response :success
+    first_page = response.parsed_body["donations"].map { |donation| donation["id"] }
+    assert_equal [ newest.id, oldest.id ], first_page
+
+    get api_campaign_donations_path(@campaign.slug), params: { cursor: "not-a-valid-cursor" }
+
+    assert_response :success
+    assert_equal first_page, response.parsed_body["donations"].map { |donation| donation["id"] }
+  end
+
+  test "donations with the same created_at page deterministically by id" do
+    timestamp = 1.hour.ago
+    lower = create_donation!(created_at: timestamp)
+    higher = create_donation!(created_at: timestamp)
+    assert higher.id > lower.id
+
+    get api_campaign_donations_path(@campaign.slug), params: { limit: 1 }
+
+    assert_response :success
+    first_page = response.parsed_body
+    assert_equal [ higher.id ], first_page["donations"].map { |donation| donation["id"] }
+    assert first_page["next_cursor"].present?
+
+    get api_campaign_donations_path(@campaign.slug), params: { limit: 1, cursor: first_page["next_cursor"] }
+
+    assert_response :success
+    second_page = response.parsed_body
+    assert_equal [ lower.id ], second_page["donations"].map { |donation| donation["id"] }
+    assert_nil second_page["next_cursor"]
   end
 
   test "valid donation request creates pending donation and returns updated progress" do

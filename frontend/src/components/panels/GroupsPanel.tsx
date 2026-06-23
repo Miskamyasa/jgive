@@ -5,8 +5,8 @@
  * donors. Not data-driven.
  */
 const groups = [
-  { name: "Supergirls זה אופי - הגן הכתום", by: "ונטעת" },
-  { name: "מאמצחיק - הגן הכתום", by: "ונטעת" },
+  { name: "Supergirls — The Orange Garden", by: "Venatata" },
+  { name: "Mam'tzchik — The Orange Garden", by: "Venatata" },
 ];
 
 export default function GroupsPanel() {

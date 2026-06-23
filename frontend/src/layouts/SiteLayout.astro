@@ -18,8 +18,7 @@ const { title = 'Jgive' } = Astro.props;
 	<body>
 		<header class="site-header">
 			<span class="brand" role="link" aria-disabled="true" aria-label="Jgive home">
-				<span class="brand-text">Jgive</span>
-				<span class="brand-heart" aria-hidden="true">&#9829;</span>
+				<img src="/logo.svg" alt="Jgive" />
 			</span>
 
 			<nav class="primary-nav" aria-label="Primary">
@@ -111,8 +110,7 @@ const { title = 'Jgive' } = Astro.props;
 
 				<div class="footer-brand">
 					<span class="brand" role="link" aria-disabled="true" aria-label="Jgive home">
-						<span class="brand-text">Jgive</span>
-						<span class="brand-heart" aria-hidden="true">&#9829;</span>
+						<img src="/logo.svg" alt="Jgive" />
 					</span>
 					<p class="copyright">&copy; Jgive, Keren Asor (NPO) 2026</p>
 				</div>
@@ -159,18 +157,13 @@ const { title = 'Jgive' } = Astro.props;
 <style>
 	.brand {
 		display: inline-flex;
-		align-items: flex-start;
-		text-decoration: none;
-		color: var(--text);
-		font-weight: 700;
-		font-size: 1.6rem;
-		line-height: 1;
+		align-items: center;
 	}
 
-	.brand-heart {
-		color: var(--accent-magenta-bright);
-		font-size: 0.7rem;
-		margin-left: 1px;
+	.brand img {
+		display: block;
+		height: 2rem;
+		width: auto;
 	}
 
 	.site-header {
@@ -302,8 +295,8 @@ const { title = 'Jgive' } = Astro.props;
 		gap: 1rem;
 	}
 
-	.footer-brand .brand {
-		font-size: 2.4rem;
+	.footer-brand .brand img {
+		height: 3rem;
 	}
 
 	.copyright {

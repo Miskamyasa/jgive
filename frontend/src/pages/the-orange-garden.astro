@@ -9,7 +9,7 @@ import CampaignTabs from '../components/CampaignTabs.tsx';
 		<CampaignBanner />
 
 		<section class="tabs-section" aria-label="Campaign details">
-			<CampaignTabs client:visible />
+			<CampaignTabs client:load />
 		</section>
 	</main>
 </SiteLayout>
@@ -42,12 +42,33 @@ import CampaignTabs from '../components/CampaignTabs.tsx';
 		margin-top: 0;
 	}
 
-	.tabs-section :global(.tabs__panel ul) {
+	/* Prose-only list styling. Scope away from interactive island lists
+	   (e.g. the donor list) so their own reset padding/margins win. */
+	.tabs-section :global(.tabs__panel ul:not([class])) {
 		padding-left: 1.25rem;
 	}
 
-	.tabs-section :global(.tabs__panel li) {
+	.tabs-section :global(.tabs__panel ul:not([class]) > li) {
 		margin-bottom: 0.5rem;
+	}
+
+	/* Content images (e.g. the About-the-Project figures) — keep them
+	   responsive and contained within the panel. */
+	.tabs-section :global(.tabs__panel figure) {
+		margin: 1.5rem 0;
+	}
+
+	.tabs-section :global(.tabs__panel figure img) {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 0.75rem;
+	}
+
+	.tabs-section :global(.tabs__panel figcaption) {
+		margin-top: 0.5rem;
+		color: var(--text-muted);
+		font-size: 0.9rem;
 	}
 
 	.tabs-section :global(.tabs__panel blockquote) {

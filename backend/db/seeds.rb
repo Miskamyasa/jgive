@@ -104,6 +104,56 @@ if campaign.donations.empty?
       frequency: :one_time,
       display_name_mode: :full_name,
       donor_name: "Oren Mizrahi"
+    },
+    {
+      amount_cents: 50_000_000,
+      frequency: :one_time,
+      display_name_mode: :full_name,
+      donor_name: "The Friedman Foundation",
+      dedication: "In honor of those we lost, and the hope we plant for the future."
+    },
+    {
+      amount_cents: 25_000_000,
+      frequency: :one_time,
+      display_name_mode: :anonymous,
+      dedication: "For the children, with a prayer for peace."
+    },
+    {
+      amount_cents: 15_000_000,
+      frequency: :one_time,
+      display_name_mode: :full_name,
+      donor_name: "Avraham Stern"
+    },
+    {
+      amount_cents: 8_000_000,
+      frequency: :one_time,
+      display_name_mode: :first_name,
+      donor_name: "Yael",
+      dedication: "May this garden bloom for generations."
+    },
+    {
+      amount_cents: 4_500_000,
+      frequency: :recurring,
+      display_name_mode: :anonymous
+    },
+    {
+      amount_cents: 3_500_000,
+      frequency: :one_time,
+      display_name_mode: :full_name,
+      donor_name: "Maya Goldberg"
+    },
+    {
+      amount_cents: 850_000,
+      frequency: :one_time,
+      display_name_mode: :first_name,
+      donor_name: "Itai"
+    },
+    {
+      amount_cents: 450_000,
+      frequency: :one_time,
+      display_name_mode: :full_name,
+      donor_name: "Ruth Peretz",
+      dedication: "With love and remembrance."
     }
   ])
 end

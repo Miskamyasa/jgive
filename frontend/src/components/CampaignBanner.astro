@@ -5,7 +5,7 @@
 // as initial/fallback props so the island shows sensible numbers before the
 // fetch resolves.
 import ProgressIsland from './ProgressIsland.tsx';
-import DonationForm from './DonationForm.tsx';
+import DonationDialog from './DonationDialog.tsx';
 
 const raised = 1071976;
 const goal = 5000000;
@@ -21,6 +21,8 @@ const flags = [
 ---
 
 <section class="campaign-banner" aria-labelledby="campaign-title">
+	<img class="cover-image" src="/cover.jpg" alt="The Orange Garden campaign cover" width="1920" height="518" />
+
 	<!--
 		Progress island mount point.
 		The React ProgressIsland below hydrates this container, rendering live
@@ -45,7 +47,7 @@ const flags = [
 	</div>
 
 	<div class="cta-cluster">
-		<span class="donate-btn" role="link" aria-disabled="true">Donate</span>
+		<DonationDialog client:load />
 		<button type="button" class="ambassador-btn" disabled aria-disabled="true">
 			Join as ambassadors
 		</button>
@@ -72,8 +74,6 @@ const flags = [
 				<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg>
 			</span>
 		</div>
-
-		<DonationForm client:visible />
 	</div>
 
 	<div class="campaign-heading">
@@ -92,6 +92,18 @@ const flags = [
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 2rem;
+	}
+
+	/* Cover image */
+	.cover-image {
+		display: block;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		aspect-ratio: 1920 / 518;
+		object-fit: cover;
+		border-radius: 0.75rem;
+		border: 1px solid var(--border);
 	}
 
 	/* Progress region */
@@ -186,22 +198,6 @@ const flags = [
 		max-width: 520px;
 		width: 100%;
 		margin: 0 auto;
-	}
-
-	.donate-btn {
-		width: 100%;
-		text-align: center;
-		text-decoration: none;
-		color: #fff;
-		background: var(--accent-magenta-bright);
-		padding: 0.85rem 1.5rem;
-		border-radius: 999px;
-		font-weight: 600;
-		font-size: 1.1rem;
-	}
-
-	.donate-btn:hover {
-		background: var(--accent-magenta);
 	}
 
 	.ambassador-btn {
@@ -308,6 +304,7 @@ const flags = [
 			align-items: start;
 		}
 
+		.cover-image,
 		.progress-region {
 			grid-column: 1 / -1;
 		}
